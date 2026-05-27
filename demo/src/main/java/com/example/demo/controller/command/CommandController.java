@@ -34,9 +34,10 @@ public class CommandController {
         @RequestParam(required = false) String donViGui,
         @RequestParam(required = false) String ngayNhan,
         @RequestParam(required = false) String loaiVanBan,
+        @RequestParam(required = false) String trangThai,
         @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable
     ) {
-        return commandService.searchCommands(name,loaiVanBan, donViGui, ngayNhan, pageable);
+        return commandService.searchCommands(name,loaiVanBan, donViGui, ngayNhan, trangThai, pageable);
     }
 
     @GetMapping("/{id}")
