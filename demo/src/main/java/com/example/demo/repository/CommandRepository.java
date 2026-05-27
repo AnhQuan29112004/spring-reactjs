@@ -34,6 +34,11 @@ public interface CommandRepository extends JpaRepository<Command, Long> {
                :ngayNhan is null
             or c.ngay_nhan = :ngayNhan
         )
+        and (
+               :filterStatus = false
+            or (:isStatusNull = true and c.trang_thai is null)
+            or (:isStatusNull = false and c.trang_thai = :status)
+        )
         """
     )
     Page<Command> search(
@@ -41,6 +46,9 @@ public interface CommandRepository extends JpaRepository<Command, Long> {
         @Param("donViGui") String donViGui,
         @Param("loaiVanBan") String loaiVanBan,
         @Param("ngayNhan") Date ngayNhan,
+        @Param("status") Command.Status status,
+        @Param("isStatusNull") boolean isStatusNull,
+        @Param("filterStatus") boolean filterStatus,
         Pageable pageable
     );
 }
