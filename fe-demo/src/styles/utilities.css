@@ -1,0 +1,5 @@
+@layer utilities{
+    .text-filter {
+        @apply font-be_vietnam_pro font-medium text-black/85 text-sm leading-5
+    }
+}
