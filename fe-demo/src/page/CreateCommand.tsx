@@ -1,6 +1,5 @@
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosClient from "../api/axios";
 import back_icon from "../assets/back.svg";
 import save_icon from "../assets/save.svg";
 import person_icon from "../assets/person.svg";
@@ -11,6 +10,8 @@ import choose_file from "../assets/choose-file.svg";
 import { usePopup } from "../component/PopupProvider";
 import { getLeaderUsers, type UserAdmin } from "../service/userService";
 import { uploadFile } from "../service/uploadService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { commandQueryKeys, createCommand } from "../service/commandService";
 
 interface CommandFormState {
   so_van_ban: string;
@@ -35,12 +36,27 @@ const initialFormState: CommandFormState = {
 export default function CreateCommand() {
   const navigate = useNavigate();
   const { showPopup } = usePopup();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState<CommandFormState>(initialFormState);
   const [fileName, setFileName] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [leaders, setLeaders] = useState<UserAdmin[]>([]);
   const [isLoadingLeaders, setIsLoadingLeaders] = useState(true);
+
+  const createCommandMutation = useMutation({
+    mutationFn: createCommand,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: commandQueryKeys.lists() });
+      showPopup("Thêm văn bản thành công", "success");
+      navigate("/quan-ly-lenh");
+    },
+    onError: (error) => {
+      console.error("Error creating command", error);
+      showPopup("Thêm văn bản không thành công", "error");
+    },
+  });
+
+  const isSubmitting = createCommandMutation.isPending;
 
   useEffect(() => {
     const loadLeaders = async () => {
@@ -49,7 +65,7 @@ export default function CreateCommand() {
         setLeaders(data);
       } catch (error) {
         console.error("Error loading leaders", error);
-        showPopup("Khong tai duoc danh sach lanh dao", "error");
+        showPopup("Không tải được danh sách lãnh đạo", "error");
       } finally {
         setIsLoadingLeaders(false);
       }
@@ -94,40 +110,38 @@ export default function CreateCommand() {
     }
 
     if (!formData.so_van_ban.trim()) {
-      showPopup("Vui long nhap so van ban", "error");
+      showPopup("Vui lòng nhập số văn bản", "error");
       return;
     }
 
     if (!formData.ngay_ban_hanh) {
-      showPopup("Vui long chon ngay ban hanh", "error");
+      showPopup("Vui lòng chọn ngày ban hành", "error");
       return;
     }
 
     if (!formData.don_vi_gui.trim()) {
-      showPopup("Vui long nhap don vi gui", "error");
+      showPopup("Vui lòng nhập đơn vị gửi", "error");
       return;
     }
 
     if (!formData.ngay_nhan) {
-      showPopup("Vui long chon ngay nhan van ban", "error");
+      showPopup("Vui lòng chọn ngày nhận văn bản", "error");
       return;
     }
 
     if (!formData.lanh_dao_id) {
-      showPopup("Vui long chon lanh dao phe duyet", "error");
+      showPopup("Vui lòng chọn lãnh đạo phê duyệt", "error");
       return;
     }
 
     try {
-      setIsSubmitting(true);
-
       let uploadedFilePath: string | null = null;
       if (selectedFile) {
         const uploadedFile = await uploadFile(selectedFile);
         uploadedFilePath = uploadedFile.path;
       }
 
-      await axiosClient.post("/api/commands", {
+      await createCommandMutation.mutateAsync({
         so_van_ban: formData.so_van_ban.trim(),
         ngay_ban_hanh: formData.ngay_ban_hanh,
         ngay_nhan: formData.ngay_nhan,
@@ -140,14 +154,8 @@ export default function CreateCommand() {
         },
         da_phe_duyet: false,
       });
-
-      showPopup("Them van ban thanh cong", "success");
-      navigate("/quan-ly-lenh");
     } catch (error) {
       console.error("Error creating command", error);
-      showPopup("Them van ban khong thanh cong", "error");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
