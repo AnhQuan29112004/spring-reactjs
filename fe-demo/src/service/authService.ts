@@ -6,7 +6,6 @@ export const login = async (data: any) => {
 };
 
 export const register = async (data: any) => {
-    console.log("regiter");
     const res = await axiosClient.post("/auth/register", data);
     return res.data;
 };
