@@ -34,7 +34,6 @@ const parseJwtPayload = (token: string) => {
   try {
     const normalized = payload.replace(/-/g, "+").replace(/_/g, "/");
     const padded = normalized.padEnd(normalized.length + ((4 - normalized.length % 4) % 4), "=");
-    console.log('check user infor: ', JSON.parse(atob(padded)))
     const decoded = JSON.parse(atob(padded));
 
     cachedToken = token;
