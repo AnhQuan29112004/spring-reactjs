@@ -6,6 +6,7 @@ import add_icon from "../assets/add.svg";
 import setting_icon from "../assets/setting.svg";
 import { Filter } from "./FIlter";
 import type { CommandFilterValues } from "../interfaces/Command";
+import { motion, AnimatePresence } from "framer-motion";
 
 type ToolBarProp = {
   search: string;
@@ -15,6 +16,7 @@ type ToolBarProp = {
   handleAddClick: () => void;
   filterValues: CommandFilterValues;
   handleApplyFilter: (values: CommandFilterValues) => void;
+  actions?: ("add" | "delete" | "setting")[];
 };
 
 export default function ToolBar({
@@ -25,6 +27,7 @@ export default function ToolBar({
   handleAddClick,
   filterValues,
   handleApplyFilter,
+  actions = ["add", "delete", "setting"],
 }: ToolBarProp) {
   const [openFilter, setOpenFilter] = useState(false);
 
@@ -49,11 +52,19 @@ export default function ToolBar({
         </div>
         <div className="relative flex">
           {openFilter ? (
-            <Filter
-              toggleFilter={toggleFilter}
-              filterValues={filterValues}
-              onApply={handleApplyFilter}
-            />
+            <motion.div
+              id="login-card"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+
+                <Filter
+                  toggleFilter={toggleFilter}
+                  filterValues={filterValues}
+                  onApply={handleApplyFilter}
+                />
+              </motion.div>
           ) : null}
           <button
             type="button"
@@ -67,31 +78,37 @@ export default function ToolBar({
       </div>
 
       <div className="flex items-center gap-3">
-        <button
-          type="button"
-          disabled={selectedIds.length === 0}
-          onClick={async () => {
-            if (confirm(`Bạn chắc chắn muốn xóa ${selectedIds.length} bản ghi đã chọn?`)) {
-              await handleDeleteSelected();
-            }
-          }}
-          className="flex h-10 w-10 items-center justify-center rounded-[8px] bg-[#AF3333] text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-[#E7A7A3]"
-        >
-          <img className="h-[26px] w-[26px]" src={trash_icon} alt="" />
-        </button>
-        <button
-          type="button"
-          onClick={handleAddClick}
-          className="flex h-10 w-10 items-center justify-center rounded-[8px] bg-[#0C9254] text-sm font-semibold text-white"
-        >
-          <img className="h-[26px] w-[26px]" src={add_icon} alt="" />
-        </button>
-        <button
-          type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-[8px] bg-[#0C9254] text-sm font-semibold text-white"
-        >
-          <img className="h-[26px] w-[26px]" src={setting_icon} alt="" />
-        </button>
+        {actions.includes("delete") && (
+          <button
+            type="button"
+            disabled={selectedIds.length === 0}
+            onClick={async () => {
+              if (confirm(`Bạn chắc chắn muốn xóa ${selectedIds.length} bản ghi đã chọn?`)) {
+                await handleDeleteSelected();
+              }
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-[8px] bg-[#AF3333] text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-[#E7A7A3]"
+          >
+            <img className="h-[26px] w-[26px]" src={trash_icon} alt="" />
+          </button>
+        )}
+        {actions.includes("add") && (
+          <button
+            type="button"
+            onClick={handleAddClick}
+            className="flex h-10 w-10 items-center justify-center rounded-[8px] bg-[#0C9254] text-sm font-semibold text-white"
+          >
+            <img className="h-[26px] w-[26px]" src={add_icon} alt="" />
+          </button>
+        )}
+        {actions.includes("setting") && (
+          <button
+            type="button"
+            className="flex h-10 w-10 items-center justify-center rounded-[8px] bg-[#0C9254] text-sm font-semibold text-white"
+          >
+            <img className="h-[26px] w-[26px]" src={setting_icon} alt="" />
+          </button>
+        )}
       </div>
     </div>
   );
