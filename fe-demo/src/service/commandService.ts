@@ -10,6 +10,7 @@ export interface CommandItem {
   noi_dung: string | null;
   file: string | null;
   loai_van_ban?: string | null;
+  trang_thai?: string | null;
   user?: {
     id: number;
     username: string;
@@ -36,6 +37,7 @@ export interface CommandListParams {
   size: number;
   searchValue: string;
   filters: CommandFilterValues;
+  trangThai?: string;
 }
 
 export interface CreateCommandPayload {
@@ -49,7 +51,7 @@ export interface CreateCommandPayload {
   lanhDao: {
     id: number;
   };
-  da_phe_duyet: boolean;
+  trang_thai: string;
 }
 
 export const commandQueryKeys = {
@@ -65,6 +67,7 @@ export const getCommands = async ({
   size,
   searchValue,
   filters,
+  trangThai,
 }: CommandListParams): Promise<CommandResponse> => {
   const params: {
     page: number;
@@ -74,6 +77,7 @@ export const getCommands = async ({
     donViGui?: string;
     ngayNhan?: string;
     loaiVanBan?: string;
+    trangThai?: string;
   } = {
     page,
     size,
@@ -94,6 +98,10 @@ export const getCommands = async ({
 
   if (filters.loai_van_ban) {
     params.loaiVanBan = filters.loai_van_ban;
+  }
+
+  if (trangThai) {
+    params.trangThai = trangThai;
   }
 
   const res = await axiosClient.get("/api/commands", { params });
