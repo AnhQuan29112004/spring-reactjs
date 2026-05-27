@@ -13,7 +13,6 @@ type LeftSideBarProps = {
 
 export default function LeftSideBar({ isOpen, onClose }: LeftSideBarProps) {
   const items = getMenu()
-  console.log('check role: ',isLanhDao() )
 
   return (
     <>
