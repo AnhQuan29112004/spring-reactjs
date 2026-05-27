@@ -36,7 +36,6 @@ export function Filter({ toggleFilter, filterValues, onApply }: FilterProps) {
     };
 
   const handleApply = () => {
-    console.log('check form:',formData)
     onApply(formData);
     toggleFilter();
   };
