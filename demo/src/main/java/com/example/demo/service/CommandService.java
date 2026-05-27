@@ -35,15 +35,36 @@ public class CommandService {
         return Page.empty();
     }
 
-    public Page<Command> searchCommands(String keyword,String loaiVanBan ,String donViGui, String ngayNhan, Pageable pageable) {
+    public Page<Command> searchCommands(String keyword,String loaiVanBan ,String donViGui, String ngayNhan, String trangThai, Pageable pageable) {
         User currentUser = util.getCurrentUser();
 
         if (util.isLanhDao(currentUser) || util.isVanThu(currentUser)) {
+            boolean filterStatus = false;
+            boolean isStatusNull = false;
+            Command.Status status = null;
+
+            if (trangThai != null && !trangThai.trim().isEmpty()) {
+                filterStatus = true;
+                if ("TIEP_NHAN".equals(trangThai)) {
+                    isStatusNull = true;
+                } else {
+                    try {
+                        status = Command.Status.valueOf(trangThai);
+                    } catch (IllegalArgumentException e) {
+                        // If invalid status string is provided, fallback to not filtering
+                        filterStatus = false;
+                    }
+                }
+            }
+
             return commandRepository.search(
                 normalizeSearchTerm(keyword),
                 normalizeSearchTerm(donViGui),
                 normalizeSearchTerm(loaiVanBan),
                 normalizeDateSearchTerm(ngayNhan),
+                status,
+                isStatusNull,
+                filterStatus,
                 pageable
             );
         }
@@ -79,7 +100,7 @@ public class CommandService {
 
         commandDetails.setUser(currentUser);
         commandDetails.setLanhDao(resolveLeader(commandDetails.getLanhDao()));
-        commandDetails.setDa_phe_duyet(false);
+        commandDetails.setTrang_thai(commandDetails.getTrang_thai());
         return commandRepository.save(commandDetails);
     }
 
@@ -102,7 +123,7 @@ public class CommandService {
             command.setLoai_van_ban(commandDetails.getLoai_van_ban());
             command.setFile(commandDetails.getFile());
             command.setLanhDao(resolveLeader(commandDetails.getLanhDao()));
-            command.setDa_phe_duyet(commandDetails.isDa_phe_duyet());
+            command.setTrang_thai(commandDetails.getTrang_thai());
 
             return commandRepository.save(command);
         }).orElseThrow(() -> new RuntimeException("Command not found"));
