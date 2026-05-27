@@ -26,6 +26,7 @@ export default function DetailCommand() {
     queryFn: () => getCommandById(id),
     enabled: Boolean(id),
   });
+  console.log('check data detail: ', data)
 
   const history = [
     {
