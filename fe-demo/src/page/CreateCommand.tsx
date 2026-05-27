@@ -104,7 +104,7 @@ export default function CreateCommand() {
     setFileName(file?.name || "");
   };
 
-  const handleCreateCommand = async () => {
+  const handleCreateCommand = async (status:string) => {
     if (isSubmitting) {
       return;
     }
@@ -152,7 +152,7 @@ export default function CreateCommand() {
         lanhDao: {
           id: Number(formData.lanh_dao_id),
         },
-        da_phe_duyet: false,
+        trang_thai: status,
       });
     } catch (error) {
       console.error("Error creating command", error);
@@ -176,7 +176,7 @@ export default function CreateCommand() {
           </button>
           <button
             type="button"
-            onClick={handleCreateCommand}
+            onClick={()=>handleCreateCommand(null)}
             disabled={isSubmitting}
             className="flex items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-[#00854C] px-[15px] py-[5px] disabled:opacity-70"
           >
@@ -185,7 +185,7 @@ export default function CreateCommand() {
           </button>
           <button
             type="button"
-            onClick={handleCreateCommand}
+            onClick={()=>handleCreateCommand("chua_phe_duyet")}
             disabled={isSubmitting}
             className="flex items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-[#00854C] px-[15px] py-[5px] disabled:opacity-70"
           >
