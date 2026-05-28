@@ -4,6 +4,8 @@ import compolent_address from "../assets/compolent_address.svg";
 
 export function Breadcrumb() {
   const location = useLocation();
+  const matchId = location.pathname.match(/\/(\d+)$/);
+  const currentId = matchId ? matchId[1] : null;
 
   const items = routes.filter(
     (r) =>
@@ -42,7 +44,7 @@ export function Breadcrumb() {
                     </span>
                     ) : (
                     <Link
-                        to={item.path}
+                        to={(item as any).appendId && currentId ? `${item.path}/${currentId}` : item.path}
                         className="
                         text-[#7A7A7A]
                         hover:text-[#444]
