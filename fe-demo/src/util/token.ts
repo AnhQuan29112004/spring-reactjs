@@ -25,7 +25,7 @@ export const removeToken = () => {
   cachedToken = null;
 };
 
-const parseJwtPayload = (token: string) => {
+export const parseJwtPayload = (token: string) => {
   const payload = token.split(".")[1];
   if (!payload) return null;
   if (cachedToken === token && cachedPayload) {
