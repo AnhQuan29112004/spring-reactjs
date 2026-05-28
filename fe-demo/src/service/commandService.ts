@@ -54,6 +54,20 @@ export interface CreateCommandPayload {
   trang_thai: string;
 }
 
+export interface UpdateCommandPayload {
+  so_van_ban?: string;
+  ngay_ban_hanh?: string;
+  ngay_nhan?: string;
+  don_vi_gui?: string;
+  noi_dung?: string | null;
+  loai_van_ban?: string;
+  file?: string | null;
+  lanhDao?: {
+    id?: number;
+  };
+  trang_thai?: string;
+}
+
 export const commandQueryKeys = {
   all: ["commands"] as const,
   lists: () => [...commandQueryKeys.all, "list"] as const,
@@ -120,6 +134,11 @@ export const createCommand = async (payload: CreateCommandPayload) => {
 
 export const deleteCommand = async (id: number) => {
   await axiosClient.delete(`/api/commands/${id}`);
+};
+
+export const updateCommand = async (id: number, payload: UpdateCommandPayload) => {
+  const res = await axiosClient.patch(`/api/commands/${id}`, payload);
+  return res.data;
 };
 
 export const deleteCommands = async (ids: number[]) => {
