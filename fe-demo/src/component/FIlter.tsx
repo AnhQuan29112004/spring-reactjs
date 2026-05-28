@@ -1,33 +1,45 @@
 import type { ChangeEvent } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import filter_green_icon from "../assets/filter-green.svg";
 import reset_icon from "../assets/reset.svg";
 import cancel_icon from "../assets/cancel.svg";
 import accept_icon from "../assets/accept.svg";
-import type { CommandFilterValues } from "../interfaces/Command";
-import { form } from "framer-motion/client";
 
-const initialForm: CommandFilterValues = {
-  loai_van_ban: "",
-  don_vi_gui: "",
-  ngay_nhan: "",
-};
-
-interface FilterProps {
-  toggleFilter: () => void;
-  filterValues: CommandFilterValues;
-  onApply: (values: CommandFilterValues) => void;
+export interface FilterField {
+  name: string;
+  label: string;
+  type: "text" | "select" | "date";
+  options?: { label: string; value: string | number }[]; // For select
+  placeholder?: string;
 }
 
-export function Filter({ toggleFilter, filterValues, onApply }: FilterProps) {
-  const [formData, setFormData] = useState<CommandFilterValues>(filterValues);
+export interface FilterProps<T> {
+  toggleFilter: () => void;
+  filterValues: T;
+  initialValues: T;
+  fields: FilterField[];
+  onApply: (values: T) => void;
+}
+
+export function Filter<T extends Record<string, any>>({
+  toggleFilter,
+  filterValues,
+  initialValues,
+  fields,
+  onApply,
+}: FilterProps<T>) {
+  const [formData, setFormData] = useState<T>(filterValues);
+
+  useEffect(() => {
+    setFormData(filterValues);
+  }, [filterValues]);
 
   const resetForm = () => {
-    setFormData(initialForm);
+    setFormData(initialValues);
   };
 
   const handleChangeInput =
-    (key: keyof CommandFilterValues) =>
+    (key: keyof T) =>
     (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setFormData((prev) => ({
         ...prev,
@@ -50,40 +62,36 @@ export function Filter({ toggleFilter, filterValues, onApply }: FilterProps) {
           </span>
           <img src={filter_green_icon} alt="" />
         </div>
+        
         <div className="grid grid-cols-2 gap-[18px]">
-          <div className="flex flex-col items-start gap-2">
-            <span className="text-filter">Loại văn bản</span>
-            <select
-              value={formData.loai_van_ban}
-              onChange={handleChangeInput("loai_van_ban")}
-              className="w-full rounded border-[0.8px] border-[#D9D9D9] bg-white px-4 py-3"
-            >
-              <option value="">Tất cả</option>
-              <option value="Lệnh nhập kho">Lệnh nhập kho</option>
-              <option value="Lệnh xuất kho">Lệnh xuất kho</option>
-              <option value="Kế hoạch kiểm kê">Kế hoạch kiểm kê</option>
-              <option value="Kế hoạch kiểm tra">Kế hoạch kiểm tra</option>
-            </select>
-          </div>
-          <div className="flex flex-col items-start gap-2">
-            <span className="text-filter">Đơn vị gửi</span>
-            <input
-              value={formData.don_vi_gui}
-              onChange={handleChangeInput("don_vi_gui")}
-              className="w-full rounded border-[0.8px] border-[#D9D9D9] bg-white px-4 py-3"
-              placeholder="Nhập đơn vị gửi"
-            />
-          </div>
+          {fields.map((field) => (
+            <div key={field.name} className={`flex flex-col items-start gap-2 ${field.type === 'date' ? 'col-span-2' : ''}`}>
+              <span className="text-filter">{field.label}</span>
+              {field.type === "select" ? (
+                <select
+                  value={formData[field.name] as string | number || ""}
+                  onChange={handleChangeInput(field.name)}
+                  className="w-full rounded border-[0.8px] border-[#D9D9D9] bg-white px-4 py-3"
+                >
+                  {field.options?.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  value={formData[field.name] as string | number || ""}
+                  onChange={handleChangeInput(field.name)}
+                  className={`w-full rounded border-[0.8px] border-[#D9D9D9] bg-white px-4 py-3 ${field.type === "date" ? "date" : ""}`}
+                  placeholder={field.placeholder}
+                />
+              )}
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col items-start w-full gap-2">
-          <span className="text-filter">Ngày nhận</span>
-          <input
-            value={formData.ngay_nhan}
-            onChange={handleChangeInput("ngay_nhan")}
-            type="date"
-            className="date"
-          />
-        </div>
+
         <div className="flex justify-between">
           <button onClick={resetForm} type="button" className="button-in-filter">
             <img src={reset_icon} alt="" />

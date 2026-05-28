@@ -5,21 +5,23 @@ import trash_icon from "../assets/trash.svg";
 import add_icon from "../assets/add.svg";
 import setting_icon from "../assets/setting.svg";
 import { Filter } from "./FIlter";
-import type { CommandFilterValues } from "../interfaces/Command";
+import type { FilterField } from "./FIlter";
 import { motion, AnimatePresence } from "framer-motion";
 
-type ToolBarProp = {
+type ToolBarProp<T = any> = {
   search: string;
   handleSearchChange: (value: string) => void;
   selectedIds: Array<string | number>;
   handleDeleteSelected: () => void;
   handleAddClick: () => void;
-  filterValues: CommandFilterValues;
-  handleApplyFilter: (values: CommandFilterValues) => void;
+  filterValues?: T;
+  handleApplyFilter?: (values: T) => void;
   actions?: ("add" | "delete" | "setting")[];
+  filterFields?: FilterField[];
+  initialFilterValues?: T;
 };
 
-export default function ToolBar({
+export default function ToolBar<T = any>({
   search,
   handleSearchChange,
   selectedIds,
@@ -28,10 +30,13 @@ export default function ToolBar({
   filterValues,
   handleApplyFilter,
   actions = ["add", "delete", "setting"],
-}: ToolBarProp) {
+  filterFields,
+  initialFilterValues,
+}: ToolBarProp<T>) {
   const [openFilter, setOpenFilter] = useState(false);
 
   const toggleFilter = () => {
+    console.log("check co click hay khong.", openFilter && filterFields && initialFilterValues && filterValues && handleApplyFilter)
     setOpenFilter((prev) => !prev);
   };
 
@@ -51,29 +56,33 @@ export default function ToolBar({
           />
         </div>
         <div className="relative flex">
-          {openFilter ? (
+          {openFilter && filterFields && initialFilterValues && filterValues && handleApplyFilter ? (
             <motion.div
               id="login-card"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               >
-
                 <Filter
                   toggleFilter={toggleFilter}
                   filterValues={filterValues}
+                  initialValues={initialFilterValues}
+                  fields={filterFields}
                   onApply={handleApplyFilter}
                 />
               </motion.div>
           ) : null}
-          <button
-            type="button"
-            onClick={toggleFilter}
-            className="flex h-11 min-w-[110px] items-center gap-[10px] rounded-[8px] bg-[#0C9254] px-4 font-roboto text-base font-normal text-white"
-          >
-            <img src={filter_icon} alt="" />
-            Bộ lọc
-          </button>
+          
+          {filterFields && filterFields.length > 0 && (
+            <button
+              type="button"
+              onClick={toggleFilter}
+              className="flex h-11 min-w-[110px] items-center gap-[10px] rounded-[8px] bg-[#0C9254] px-4 font-roboto text-base font-normal text-white"
+            >
+              <img src={filter_icon} alt="" />
+              Bộ lọc
+            </button>
+          )}
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import ToolBar from "../component/ToolBar";
 import CommandTable from "../component/CommandTable";
 import { useNavigate } from "react-router-dom";
 import type { CommandFilterValues } from "../interfaces/Command";
+import type { FilterField } from "../component/FIlter";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   commandQueryKeys,
@@ -29,6 +30,32 @@ const initialFilterValues: CommandFilterValues = {
   don_vi_gui: "",
   ngay_nhan: "",
 };
+
+const commandFilterFields: FilterField[] = [
+  {
+    name: "loai_van_ban",
+    label: "Loại văn bản",
+    type: "select",
+    options: [
+      { label: "Tất cả", value: "" },
+      { label: "Lệnh nhập kho", value: "Lệnh nhập kho" },
+      { label: "Lệnh xuất kho", value: "Lệnh xuất kho" },
+      { label: "Kế hoạch kiểm kê", value: "Kế hoạch kiểm kê" },
+      { label: "Kế hoạch kiểm tra", value: "Kế hoạch kiểm tra" },
+    ],
+  },
+  {
+    name: "don_vi_gui",
+    label: "Đơn vị gửi",
+    type: "text",
+    placeholder: "Nhập đơn vị gửi",
+  },
+  {
+    name: "ngay_nhan",
+    label: "Ngày nhận",
+    type: "date",
+  },
+];
 
 const formatDate = (value: string | null) => {
   if (!value) {
@@ -254,6 +281,8 @@ export default function CommandManagementPage() {
           filterValues={filterValues}
           handleApplyFilter={handleApplyFilter}
           actions={currentTab.actions as unknown as ("add" | "delete" | "setting")[]}
+          filterFields={commandFilterFields}
+          initialFilterValues={initialFilterValues}
         />
 
         <CommandTable

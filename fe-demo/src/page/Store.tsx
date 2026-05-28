@@ -1,10 +1,62 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import axiosClient from "../api/axios";
 import ProductFormModal from "../component/ProductModal";
-import type { Product } from "../types/ProductType.types";
+import type { Product, ProductFilterValues, ProductFilterField } from "../types/ProductType.types";
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
-import { baseUrl } from "../util/util";
 import ToolBar from "../component/ToolBar";
+import { baseUrl } from "../util/util";
+import { useNavigate } from "react-router-dom";
+
+const initialFilterValue:ProductFilterValues={
+  cap_kho:'',
+  trang_thai:'',
+  don_vi_quan_ly:'',
+  can_bo_quan_ly:''
+}
+
+const productFilterField:ProductFilterField[]=[
+  {
+    name:"cap_kho",
+    label:"Cấp kho",
+    type:"select",
+    options: [
+      { label: "Tất cả", value: "" },
+      { label: "Cấp 1", value: "1" },
+      { label: "Cấp 2", value: "2" },
+      { label: "Cấp 3", value: "3" },
+      { label: "Cấp 4", value: "4" },
+    ],
+  },
+  {
+    name:"trang_thai",
+    label:"Trạng thái",
+    type:"select",
+    options:[
+      {value:"1",label:"Hoạt động"},
+      {value:"0",label:"Không hoạt động"}
+    ]
+  },
+  {
+    name:"don_vi_quan_ly",
+    label:"Đơn vị quản lý",
+    type:"select",
+    options:[
+      {value:"1",label:"Đơn vị 1"},
+      {value:"2",label:"Đơn vị 2"},
+      {value:"3",label:"Đơn vị 3"}
+    ]
+  },
+  {
+    name:"can_bo_quan_ly",
+    label:"Cán bộ quản lý",
+    type:"select",
+    options:[
+      {value:"1",label:"Cán bộ 1"},
+      {value:"2",label:"Cán bộ 2"},
+      {value:"3",label:"Cán bộ 3"}
+    ]
+  }
+]
 
 interface StoreResponse {
   content: Product[];
@@ -29,9 +81,11 @@ const initialStoreState: StoreResponse = {
 };
 
 export default function StorePage() {
+  const navigate = useNavigate();
   const [stores, setStores] = useState<StoreResponse>(initialStoreState);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [filterValues, setFilterValues] = useState<ProductFilterValues>(initialFilterValue);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -247,8 +301,22 @@ export default function StorePage() {
     return pages;
   };
 
+  const handleApplyFilter = (values: ProductFilterValues) => {
+      setFilterValues(values);
+      setCurrentPage(0);
+    };
+
+  const openCreateStore = ()=>{
+    
+  }
+
   return (
     <div className="w-full">
+      <div className="flex items-center justify-between">
+        <h1 className="py-5 text-left font-be_vietnam_pro text-[36px] font-bold leading-[44px] text-[#135C3B]">
+          Quản lý kho
+        </h1>
+      </div>
       <div className="flex flex-col gap-4 rounded-[12px] bg-white p-4 shadow-sm">
         <ToolBar
           search={search}
@@ -256,6 +324,10 @@ export default function StorePage() {
           selectedIds={selectedIds}
           handleDeleteSelected={handleDeleteSelected}
           handleAddClick={openAddModal}
+          filterFields={productFilterField}
+          initialFilterValues={initialFilterValue}
+          filterValues={initialFilterValue}
+          handleApplyFilter={handleApplyFilter}
         />
 
         <div className="overflow-hidden rounded-[10px]">
