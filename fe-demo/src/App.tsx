@@ -10,6 +10,7 @@ import { Layout } from "./component/Layout";
 import { PopupProvider } from "./component/PopupProvider";
 import CreateCommand from "./page/CreateCommand";
 import DetailCommand from "./page/DetailCommand";
+import UpdateCommand from "./page/UpdateCommand";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,16 @@ export default function App() {
                 <PrivateRoute vanThuOnly>
                   <Layout>
                     <DetailCommand />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/quan-ly-lenh/chi-tiet-van-ban/chinh-sua-van-ban/:id"
+              element={
+                <PrivateRoute vanThuOnly>
+                  <Layout>
+                    <UpdateCommand />
                   </Layout>
                 </PrivateRoute>
               }
