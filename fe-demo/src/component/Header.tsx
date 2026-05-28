@@ -6,6 +6,7 @@ import user_info from "../assets/info-user.svg";
 import change_pass from "../assets/change-pass.svg";
 import logout_logo from "../assets/logout.svg";
 import { logout } from "../service/authService";
+import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 
 
@@ -41,6 +42,7 @@ export default function Header({
   const handleLogout = async () => {
       try {
         const tokens = await logout();
+        useAuthStore.getState().logout();
         navigate("/login");
       } catch (err) {
         alert("Sai tài khoản hoặc mật khẩu");
