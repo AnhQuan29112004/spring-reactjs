@@ -3,8 +3,11 @@ import back_icon from "../assets/back.svg";
 import history_icon from "../assets/history.svg";
 import dot_orange from "../assets/dot-orange.svg";
 import TimelineItem from "../component/TimeLine";
-import { commandQueryKeys, getCommandById } from "../service/commandService";
-import { useQuery } from "@tanstack/react-query";
+import { commandQueryKeys, deleteCommand, getCommandById } from "../service/commandService";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import trash_1_icon from "../assets/trash-1.svg";
+import update_icon from "../assets/update.svg";
+import person_icon from "../assets/person.svg";
 
 const formatDate = (value: string | null | undefined) => {
   if (!value) {
@@ -21,6 +24,7 @@ const formatDate = (value: string | null | undefined) => {
 
 export default function DetailCommand() {
   const { id = "" } = useParams();
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: commandQueryKeys.detail(id),
     queryFn: () => getCommandById(id),
@@ -52,6 +56,43 @@ export default function DetailCommand() {
     navigate("/quan-ly-lenh");
   };
 
+  const handleNavigateUpdateCommand = () => {
+    if (data?.id) {
+      navigate(`/quan-ly-lenh/chi-tiet-van-ban/chinh-sua-van-ban/${data.id}`);
+    }
+  };
+
+  const refreshAfterDelete = async (idsToRemove: number[]) => {
+
+    idsToRemove.forEach((id) => {
+      queryClient.removeQueries({ queryKey: commandQueryKeys.detail(id) });
+    });
+
+
+    await queryClient.invalidateQueries({ queryKey: commandQueryKeys.lists() });
+  };
+
+  const deleteOneMutation = useMutation({
+    mutationFn: deleteCommand,
+    onSuccess: async (_, id) => {
+      await refreshAfterDelete([id]);
+      handleBack();
+    },
+    onError: (err) => {
+      console.error("Error deleting command", err);
+      alert("Không thể xóa văn bản. Vui lòng kiểm tra quyền truy cập.");
+    },
+  });
+
+  const isDeleting = deleteOneMutation.isPending
+  const handleDeleteCommand = async (id: number) => {
+    if (isDeleting) {
+      return;
+    }
+
+    await deleteOneMutation.mutateAsync(id);
+  };
+
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between py-5 max-sm:flex-col max-sm:items-start max-sm:justify-center">
@@ -67,6 +108,33 @@ export default function DetailCommand() {
             <img src={back_icon} alt="" />
             <span className="text-normal">Quay lại</span>
           </button>
+          <div className={`flex gap-[10px] ${data?.trang_thai === null || data?.trang_thai === '' ? '' : 'hidden'}`}>
+
+            <button
+              type="button"
+              onClick={handleBack}
+              className="flex h-auto bg-[#00854C] items-center justify-center gap-2 rounded border border-[#00854C] px-[15px] py-[5px]"
+            >
+              <img src={person_icon} alt="" />
+              <span className="text-normal text-white">Trình duyệt</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleNavigateUpdateCommand}
+              className="flex h-auto bg-[#00854C] items-center justify-center gap-2 rounded border border-[#00854C] px-[15px] py-[5px]"
+            >
+              <img src={update_icon} alt="" />
+              <span className="text-normal text-white">Chỉnh sửa</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDeleteCommand(data.id)}
+              className="flex h-auto bg-[#00854C] items-center justify-center gap-2 rounded border border-[#00854C] px-[15px] py-[5px]"
+            >
+              <img src={trash_1_icon} alt="" />
+              <span className="text-normal text-white">Xóa văn bản</span>
+            </button>
+          </div>
         </div>
       </div>
       <div className="flex gap-[10px] w-full h-auto max-lg:flex-col max-lg:gap-5">
