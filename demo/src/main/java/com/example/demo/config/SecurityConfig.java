@@ -74,6 +74,18 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       http
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .exceptionHandling(exceptions -> exceptions
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(401);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Token không hợp lệ hoặc đã hết hạn.\"}");
+            })
+            .accessDeniedHandler((request, response, accessDeniedException) -> {
+                response.setStatus(403);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"status\":403,\"error\":\"Forbidden\",\"message\":\"Bạn không có quyền truy cập tài nguyên này.\"}");
+            })
+        )
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/auth/**").permitAll()
             .requestMatchers("/uploads/**").permitAll()
