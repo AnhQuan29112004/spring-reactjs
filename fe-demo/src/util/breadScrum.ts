@@ -18,5 +18,11 @@ export const routes = [
   {
     path: "/quan-ly-lenh/chi-tiet-van-ban",
     breadcrumb: "Chi tiết văn bản",
+    appendId: true,
+  },
+  {
+    path: "/quan-ly-lenh/chi-tiet-van-ban/chinh-sua-van-ban",
+    breadcrumb: "Chỉnh sửa văn bản",
+    appendId: true,
   },
 ];
