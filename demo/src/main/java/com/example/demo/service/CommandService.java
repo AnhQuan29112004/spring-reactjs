@@ -45,7 +45,7 @@ public class CommandService {
 
             if (trangThai != null && !trangThai.trim().isEmpty()) {
                 filterStatus = true;
-                if ("TIEP_NHAN".equals(trangThai)) {
+                if ("tiep_nhan".equals(trangThai)) {
                     isStatusNull = true;
                 } else {
                     try {
@@ -115,15 +115,36 @@ public class CommandService {
         }
 
         return commandRepository.findById(id).map(command -> {
-            command.setSo_van_ban(commandDetails.getSo_van_ban());
-            command.setNgay_ban_hanh(commandDetails.getNgay_ban_hanh());
-            command.setNgay_nhan(commandDetails.getNgay_nhan());
-            command.setDon_vi_gui(commandDetails.getDon_vi_gui());
-            command.setNoi_dung(commandDetails.getNoi_dung());
-            command.setLoai_van_ban(commandDetails.getLoai_van_ban());
-            command.setFile(commandDetails.getFile());
-            command.setLanhDao(resolveLeader(commandDetails.getLanhDao()));
-            command.setTrang_thai(commandDetails.getTrang_thai());
+            if (commandDetails.getSo_van_ban() != null)
+                command.setSo_van_ban(commandDetails.getSo_van_ban());
+
+            if (commandDetails.getNgay_ban_hanh() != null)
+                command.setNgay_ban_hanh(commandDetails.getNgay_ban_hanh());
+
+            if (commandDetails.getNgay_nhan() != null)
+                command.setNgay_nhan(commandDetails.getNgay_nhan());
+
+            if (commandDetails.getDon_vi_gui() != null)
+                command.setDon_vi_gui(commandDetails.getDon_vi_gui());
+
+            if (commandDetails.getNoi_dung() != null)
+                command.setNoi_dung(commandDetails.getNoi_dung());
+
+            if (commandDetails.getLoai_van_ban() != null)
+                command.setLoai_van_ban(commandDetails.getLoai_van_ban());
+
+            if (commandDetails.getFile() != null)
+                command.setFile(commandDetails.getFile());
+
+            if (commandDetails.getLanhDao() != null)
+                command.setLanhDao(
+                    resolveLeader(commandDetails.getLanhDao())
+                );
+
+            if (commandDetails.getTrang_thai() != null)
+                command.setTrang_thai(
+                    commandDetails.getTrang_thai()
+                );
 
             return commandRepository.save(command);
         }).orElseThrow(() -> new RuntimeException("Command not found"));

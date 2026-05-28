@@ -31,7 +31,7 @@ public interface CommandRepository extends JpaRepository<Command, Long> {
             or lower(coalesce(c.loai_van_ban, '')) like lower(concat('%', :loaiVanBan, '%'))
         )
         and (
-               :ngayNhan is null
+               cast(:ngayNhan as date) is null
             or c.ngay_nhan = :ngayNhan
         )
         and (
