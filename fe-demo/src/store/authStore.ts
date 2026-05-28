@@ -15,6 +15,7 @@ if (initialToken) {
       username: payload.sub || "",
       role: payload.role || "",
     };
+    console.log("check user data: ", initialUser);
   }
 }
 
@@ -28,7 +29,6 @@ type AuthState = {
   setAuth: (data: {
     accessToken: string;
     refreshToken: string;
-    user: User;
   }) => void;
 
   logout: () => void;
@@ -47,14 +47,23 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
   },
 
-  setAuth: ({ accessToken, refreshToken, user=null }) => {
+  setAuth: ({ accessToken, refreshToken }) => {
     localStorage.setItem("token", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
+
+    let newUser = null;
+    const payload = parseJwtPayload(accessToken);
+    if (payload) {
+      newUser = {
+        username: payload.sub || "",
+        role: payload.role || "",
+      };
+    }
 
     set({
       accessToken,
       refreshToken,
-      user,
+      user: newUser,
     });
   },
 
