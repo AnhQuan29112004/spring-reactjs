@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { getToken, isLanhDao, isThuKho, isVanThu } from "../util/token";
+import { useAuthStore } from "../store/authStore";
 
 interface PrivateRouteProps {
   children: ReactNode;
@@ -10,13 +10,18 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ children, lanhDaoOnly = false, vanThuOnly = false, thuKhoOnly = false }: PrivateRouteProps) {
-  const token = getToken();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const role = useAuthStore((state) => state.user?.role);
 
-  if (!token) {
+  if (!accessToken) {
     return <Navigate to="/login" />;
   }
 
-  if ((lanhDaoOnly && !isLanhDao()) || (vanThuOnly && !isVanThu()) || (thuKhoOnly && !isThuKho())) {
+  const isLanhDao = role === "LANHDAO";
+  const isVanThu = role === "VANTHU";
+  const isThuKho = role === "THUKHO";
+
+  if ((lanhDaoOnly && !isLanhDao) || (vanThuOnly && !isVanThu) || (thuKhoOnly && !isThuKho)) {
     return <Navigate to="/" />;
   }
 

@@ -1,7 +1,6 @@
 import home from "../assets/home.svg";
 import store from "../assets/store.svg";
 import quan_ly_lenh from "../assets/quan-ly-lenh.svg";
-import { isLanhDao, isThuKho, isVanThu } from "../util/token";
 
 export const menuItems = {
     'LanhDao':[
@@ -18,11 +17,11 @@ export const menuItems = {
     ]
 }
 
-export const getMenu = () =>{
-    if(isLanhDao()){
+export const getMenu = (role?: string) =>{
+    if(role === 'LANHDAO'){
         return menuItems['LanhDao'];
     }
-    else if (isThuKho()){
+    else if (role === 'THUKHO'){
         return menuItems['ThuKho'];
     }
     else {

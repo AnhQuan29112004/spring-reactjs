@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { getMenu } from "../util/leftMenu";
 import { icons } from "lucide-react";
 
-import { isLanhDao, isThuKho, isVanThu } from "../util/token";
+import { useAuthStore } from "../store/authStore";
 
 
 type LeftSideBarProps = {
@@ -12,7 +12,8 @@ type LeftSideBarProps = {
 
 
 export default function LeftSideBar({ isOpen, onClose }: LeftSideBarProps) {
-  const items = getMenu()
+  const role = useAuthStore((state) => state.user?.role);
+  const items = getMenu(role)
 
   return (
     <>

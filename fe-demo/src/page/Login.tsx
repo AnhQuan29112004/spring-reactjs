@@ -8,6 +8,8 @@ import type { AuthMode } from "../types/AuthType.types";
 import { register } from "../service/authService";
 import logo from "../assets/logo.svg";
 import { validateForm } from "../util/validateForm";
+import { useAuthStore } from "../store/authStore";
+
 
 export default function Login() {
   const [mode, setMode] = useState<AuthMode>("login");
@@ -56,7 +58,8 @@ export default function Login() {
     try {
       
       const tokens = await login({ username, password });
-      saveToken(tokens);
+      // saveToken(tokens);
+      useAuthStore.getState().setAuth(tokens);
 
       navigate("/"); // chuyển sang home
     } catch (err) {
