@@ -5,7 +5,7 @@ import quan_ly_lenh from "../assets/quan-ly-lenh.svg";
 export const menuItems = {
     'LanhDao':[
         { to: "/", label: "Trang chủ", icons: home },
-        { to: "/store", label: "Danh sách kho", icons:store },
+        { to: "/quan-ly-kho/danh-sach-kho", label: "Danh sách kho", icons:store },
     ],
     'VanThu':[
         { to: "/", label: "Trang chủ", icons: home },
@@ -13,7 +13,7 @@ export const menuItems = {
     ],
     'ThuKho':[
         { to: "/", label: "Trang chủ", icons: home },
-        { to: "/store", label: "Danh sách kho", icons:store },
+        { to: "/quan-ly-kho/danh-sach-kho", label: "Danh sách kho", icons:store },
     ]
 }
 

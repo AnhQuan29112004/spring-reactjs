@@ -66,7 +66,7 @@ export default function App() {
               }
             />
             <Route
-              path="/store"
+              path="/quan-ly-kho/danh-sach-kho"
               element={
                 <PrivateRoute lanhDaoOnly>
                   <Layout>

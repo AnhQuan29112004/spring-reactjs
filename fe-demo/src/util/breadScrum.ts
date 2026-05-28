@@ -1,10 +1,12 @@
+import { path } from "framer-motion/client";
+
 export const routes = [
   {
     path: "/",
     breadcrumb: "Trang chủ",
   },
   {
-    path: "/store",
+    path: "/quan-ly-kho/danh-sach-kho",
     breadcrumb: "Quản lý kho",
   },
   {
@@ -25,4 +27,8 @@ export const routes = [
     breadcrumb: "Chỉnh sửa văn bản",
     appendId: true,
   },
+  {
+    path:"/quan-ly-kho/danh-sach-kho/them-moi-kho",
+    breadcrumb:"Thêm mới kho vật chứng/tài liệu, đồ vật"
+  }
 ];
