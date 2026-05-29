@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Subject, debounceTime, distinctUntilChanged } from "rxjs";
 import ToolBar from "../component/ToolBar";
-import CommandTable from "../component/CommandTable";
+import { DataTable, type Column } from "../component/DataTable";
 import { useNavigate } from "react-router-dom";
 import type { CommandFilterValues } from "../interfaces/Command";
 import type { FilterField } from "../component/FIlter";
@@ -243,6 +243,49 @@ export default function CommandManagementPage() {
     navigate(`/quan-ly-lenh/chi-tiet-van-ban/${id}`);
   };
 
+  const commandColumns: Column<any>[] = [
+    {
+      key: "so_van_ban",
+      label: "Số văn bản",
+      render: (item: any) => (
+        <span
+          className="text-sm text-semibold align-middle underline text-[#0263D1] cursor-pointer"
+          onClick={() => openDetailCommand(item.id)}
+        >
+          {item.so_van_ban}
+        </span>
+      ),
+    },
+    {
+      key: "ngay_ban_hanh",
+      label: "Ngày phát hành",
+      render: (item: any) => formatDate(item.ngay_ban_hanh),
+    },
+    {
+      key: "don_vi_gui",
+      label: "Đơn vị gửi",
+    },
+    {
+      key: "ngay_nhan",
+      label: "Ngày nhận",
+      render: (item: any) => formatDate(item.ngay_nhan),
+    },
+    {
+      key: "noi_dung",
+      label: "Nội dung",
+      render: (item: any) => (
+        <p className="max-w-[360px] truncate text-normal no-underline">
+          {item.noi_dung || "-"}
+        </p>
+      ),
+    },
+    {
+      key: "user",
+      label: "Người tạo",
+      render: (item: any) => item.user?.username || "-",
+    },
+  ];
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">
@@ -285,23 +328,23 @@ export default function CommandManagementPage() {
           initialFilterValues={initialFilterValues}
         />
 
-        <CommandTable
-          commands={commands}
+        <DataTable
+          data={commands as any}
+          columns={commandColumns}
           isLoading={isLoading}
           isFetching={isFetching}
-          debouncedSearch={debouncedSearch}
+          showCheckbox={currentTab.value === 'tiep_nhan'}
           selectedIds={selectedIds}
           selectAllRef={selectAllRef}
           allSelectedOnPage={allSelectedOnPage}
           handleToggleAllOnPage={handleToggleAllOnPage}
           handleToggleOne={handleToggleOne}
-          openDetailCommand={openDetailCommand}
-          openCreateCommand={openCreateCommand}
-          handleDeleteCommand={handleDeleteCommand}
+          onEdit={() => openCreateCommand()}
+          onDelete={handleDeleteCommand}
           isDeleting={isDeleting}
-          handlePageChange={handlePageChange}
+          onPageChange={handlePageChange}
           actions={currentTab.actions as unknown as ("add" | "delete" | "setting")[]}
-          nameTab={currentTab.value}
+          emptyMessage={debouncedSearch ? `Không tìm thấy văn bản phù hợp với "${debouncedSearch}".` : "Chưa có văn bản nào."}
         />
       </div>
     </div>
