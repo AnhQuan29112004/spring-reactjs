@@ -244,9 +244,11 @@ export default function StorePage() {
   };
 
   const openAddModal = () => {
-    setModalMode("add");
-    setSelectedProduct(null);
-    setIsModalOpen(true);
+    navigate("/quan-ly-kho/danh-sach-kho/them-moi-kho")
+  };
+
+  const openDetailModal = (id:number) => {
+    navigate("/quan-ly-kho/danh-sach-kho/chi-tiet-kho")
   };
 
   const openEditModal = (product: Product) => {
@@ -399,7 +401,7 @@ export default function StorePage() {
                         <td className="px-3 py-4 align-middle">
                           <button
                             type="button"
-                            onClick={() => openEditModal(product)}
+                            onClick={() => openDetailModal(Number(product.id))}
                             className="font-semibold text-[#1D6FE8] underline"
                           >
                             {product.name}
