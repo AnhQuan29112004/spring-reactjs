@@ -88,7 +88,7 @@ export default function CommandManagementPage() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [currentTabId, setCurrentTabId] = useState<string>("TIEP_NHAN");
-  
+
   const currentTab = TABS.find((t) => t.id === currentTabId) || TABS[0];
 
   const searchSubjectRef = useRef(new Subject<string>());
@@ -249,7 +249,7 @@ export default function CommandManagementPage() {
       label: "Số văn bản",
       render: (item: any) => (
         <span
-          className="text-sm text-semibold align-middle underline text-[#0263D1] cursor-pointer"
+          className="text-sm text-semibold-14 align-middle underline text-[#0263D1] cursor-pointer"
           onClick={() => openDetailCommand(item.id)}
         >
           {item.so_van_ban}
@@ -274,7 +274,7 @@ export default function CommandManagementPage() {
       key: "noi_dung",
       label: "Nội dung",
       render: (item: any) => (
-        <p className="max-w-[360px] truncate text-normal no-underline">
+        <p className="max-w-[360px] truncate text-normal-14 no-underline">
           {item.noi_dung || "-"}
         </p>
       ),
@@ -293,7 +293,7 @@ export default function CommandManagementPage() {
           Quản lý lệnh
         </h1>
       </div>
-      
+
       <div className="mb-4 flex gap-4">
         {TABS.map((tab) => (
           <button
@@ -303,11 +303,10 @@ export default function CommandManagementPage() {
               setCurrentPage(0);
               setSelectedIds([]);
             }}
-            className={`px-4 py-2 text-bold text-base leading-[24px] ${
-              currentTabId === tab.id
-                ? "border-b-4 border-[#1E5631E0] text-[#1E5631E0]"
-                : "text-[#7A7A7A] hover:text-[#1E5631E0]"
-            }`}
+            className={`px-4 py-2 text-bold-14 text-base leading-[24px] ${currentTabId === tab.id
+              ? "border-b-4 border-[#1E5631E0] text-[#1E5631E0]"
+              : "text-[#7A7A7A] hover:text-[#1E5631E0]"
+              }`}
           >
             {tab.label}
           </button>

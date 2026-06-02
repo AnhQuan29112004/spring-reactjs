@@ -1,42 +1,70 @@
-@layer components{
-    .username{
+@layer components {
+    .username {
         @apply font-be_vietnam_pro text-white font-semibold text-sm leading-tight
     }
-    .toolbar{
+
+    .toolbar {
         @apply flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between
     }
+
     .text-filter {
         @apply font-be_vietnam_pro font-medium text-black/85 text-sm leading-5
     }
-    .button-in-filter{
+
+    .button-in-filter {
         @apply rounded-[4px] flex gap-2 items-center border border-[#D9D9D9] py-[6px] px-[16px]
     }
 
-    .text-normal {
-        @apply font-be_vietnam_pro font-normal text-black/85 text-sm leading-5
+    .text-normal-14 {
+        @apply font-be_vietnam_pro font-normal text-black/85 leading-5;
+        font-size: 14px
     }
 
     .title-form {
         @apply font-be_vietnam_pro font-semibold text-black text-xl leading-[22px]
     }
 
-    .date{
+    .date {
         @apply bg-white border-[0.8px] border-[#D9D9D9] w-full rounded py-3 px-4
     }
 
-    .text-semibold {
+    .text-semibold-14 {
         @apply font-be_vietnam_pro font-semibold text-sm leading-[22px] underline
     }
 
-    .text-placeholder{
+    .text-placeholder {
         @apply placeholder:font-be_vietnam_pro placeholder:font-normal placeholder:text-sm placeholder:leading-[100%] placeholder:text-black/25
     }
 
-    .text-bold{
+    .text-bold-14 {
         @apply font-be_vietnam_pro font-bold text-sm leading-[22px] text-black
     }
 
-    .text-medium{
+    .text-medium {
         @apply font-medium font-be_vietnam_pro text-[10px] leading-[22px]
     }
-}
+
+    .text-normal-16{
+        @apply font-be_vietnam_pro font-normal leading-6 tracking-normal;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .text-bold-16{
+        @apply font-be_vietnam_pro font-bold leading-6 tracking-normal;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .custom-shadow-structure-modal-add{
+        box-shadow: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 
+                    0px 3px 6px -4px rgba(0, 0, 0, 0.12), 
+                    0px 6px 16px 0px rgba(0, 0, 0, 0.08);
+    }
+
+    .text-semibold-16 {
+        @apply font-be_vietnam_pro font-semibold leading-[24px] tracking-normal;
+        font-size: 16px;
+
+    }
+}   

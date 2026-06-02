@@ -1,12 +1,12 @@
 import dot_green_icon from "../assets/dot-green.svg";
 
-export default function TimelineItem({ title, description, time, isLast }:any) {
+export default function TimelineItem({ title, description, time, isLast }: any) {
   return (
     <div className="flex gap-3">
       {/* LEFT */}
       <div className="flex flex-col items-center pt-[5px]">
         {/* dot */}
-        <img src={dot_green_icon}/>
+        <img src={dot_green_icon} />
 
         {/* line chỉ xuất hiện nếu KHÔNG phải item cuối */}
         {!isLast && (
@@ -16,8 +16,8 @@ export default function TimelineItem({ title, description, time, isLast }:any) {
 
       {/* RIGHT */}
       <div className="flex flex-col items-start pb-4 gap-[3px]">
-        <p className="text-left text-bold">{title}</p>
-        <p className="text-left text-black/90 text-normal">{description}</p>
+        <p className="text-left text-bold-14">{title}</p>
+        <p className="text-left text-black/90 text-normal-14">{description}</p>
         <p className="text-left text-medium text-[#909090]">{time}</p>
       </div>
     </div>

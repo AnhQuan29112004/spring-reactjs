@@ -95,7 +95,7 @@ export default function CreateCommand() {
     setFileName(file?.name || "");
   };
 
-  const handleCreateCommand = async (status:string) => {
+  const handleCreateCommand = async (status: string) => {
     if (isSubmitting) {
       return;
     }
@@ -159,12 +159,14 @@ export default function CreateCommand() {
         { name: "ngay_ban_hanh", label: "Ngày ban hành", type: "date", required: true, hasSearchBtn: true },
         { name: "don_vi_gui", label: "Đơn vị gửi", type: "text", required: true, placeholder: "Nhập đơn vị gửi văn bản" },
         { name: "ngay_nhan", label: "Ngày nhận văn bản", type: "date", required: true, hasSearchBtn: true },
-        { name: "loai_van_ban", label: "Loại văn bản", type: "select", required: true, placeholder: "Loại văn bản", options: [
-          { label: "Lệnh nhập kho", value: "Lệnh nhập kho" },
-          { label: "Lệnh xuất kho", value: "Lệnh xuất kho" },
-          { label: "Kế hoạch kiểm kê", value: "Kế hoạch kiểm kê" },
-          { label: "Kế hoạch kiểm tra", value: "Kế hoạch kiểm tra" },
-        ] },
+        {
+          name: "loai_van_ban", label: "Loại văn bản", type: "select", required: true, placeholder: "Loại văn bản", options: [
+            { label: "Lệnh nhập kho", value: "Lệnh nhập kho" },
+            { label: "Lệnh xuất kho", value: "Lệnh xuất kho" },
+            { label: "Kế hoạch kiểm kê", value: "Kế hoạch kiểm kê" },
+            { label: "Kế hoạch kiểm tra", value: "Kế hoạch kiểm tra" },
+          ]
+        },
         { name: "noi_dung", label: "Nội dung", type: "textarea", placeholder: "Nhập nội dung văn bản" },
         { name: "file", label: "Tệp đính kèm", type: "file", required: true },
       ],
@@ -172,12 +174,12 @@ export default function CreateCommand() {
     {
       title: "Thông tin xử lý văn bản",
       fields: [
-        { 
-          name: "lanh_dao_id", 
-          label: "Lãnh đạo phê duyệt", 
-          type: "select", 
-          required: true, 
-          disabled: isLoadingLeaders, 
+        {
+          name: "lanh_dao_id",
+          label: "Lãnh đạo phê duyệt",
+          type: "select",
+          required: true,
+          disabled: isLoadingLeaders,
           placeholder: isLoadingLeaders ? "Đang tải lãnh đạo..." : "Chọn lãnh đạo phê duyệt",
           options: leaders.map((leader) => ({ label: leader.username, value: leader.id }))
         },
@@ -199,25 +201,25 @@ export default function CreateCommand() {
             className="flex h-auto items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-white px-[15px] py-[5px]"
           >
             <img src={back_icon} alt="" />
-            <span className="text-normal">Quay lại</span>
+            <span className="text-normal-14">Quay lại</span>
           </button>
           <button
             type="button"
-            onClick={()=>handleCreateCommand(null)}
+            onClick={() => handleCreateCommand(null)}
             disabled={isSubmitting}
             className="flex items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-[#00854C] px-[15px] py-[5px] disabled:opacity-70"
           >
             <img src={save_icon} alt="" />
-            <span className="text-white text-normal">{isSubmitting ? "Đang lưu..." : "Lưu"}</span>
+            <span className="text-white text-normal-14">{isSubmitting ? "Đang lưu..." : "Lưu"}</span>
           </button>
           <button
             type="button"
-            onClick={()=>handleCreateCommand("chua_phe_duyet")}
+            onClick={() => handleCreateCommand("chua_phe_duyet")}
             disabled={isSubmitting}
             className="flex items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-[#00854C] px-[15px] py-[5px] disabled:opacity-70"
           >
             <img src={person_icon} alt="" />
-            <span className="text-white text-normal">
+            <span className="text-white text-normal-14">
               {isSubmitting ? "Đang lưu..." : "Lưu & trình duyệt"}
             </span>
           </button>

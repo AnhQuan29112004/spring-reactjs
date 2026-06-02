@@ -7,7 +7,7 @@ import reset_icon from "../assets/reset.svg";
 import required_icon from "../assets/required.svg";
 import search_icon from "../assets/search-icon.svg";
 import choose_file from "../assets/choose-file.svg";
-import trash_2_icon from  "../assets/trash-2.svg";
+import trash_2_icon from "../assets/trash-2.svg";
 import { usePopup } from "../component/PopupProvider";
 import { getLeaderUsers, type UserAdmin } from "../service/userService";
 import { uploadFile } from "../service/uploadService";
@@ -21,16 +21,16 @@ import { AddStructureModal } from "../component/AddStructureModal";
 import add_icon from "../assets/add.svg";
 
 const initialFormState: StoreState = {
-  ma_kho:'',
-  ten_kho:'',
-  cap_kho:'',
-  don_vi_quan_ly:'',
-  tinh_thanh:'',
-  phuong_xa:'',
-  dia_chi:'',
-  trang_thai:'',
-  ghi_chu:'',
-  nhan_su:[],
+  ma_kho: '',
+  ten_kho: '',
+  cap_kho: '',
+  don_vi_quan_ly: '',
+  tinh_thanh: '',
+  phuong_xa: '',
+  dia_chi: '',
+  trang_thai: '',
+  ghi_chu: '',
+  nhan_su: [],
   storage_tree: initialStorageTree
 };
 
@@ -43,7 +43,7 @@ export default function CreateProduct() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [leaders, setLeaders] = useState<UserAdmin[]>([]);
   const [isLoadingLeaders, setIsLoadingLeaders] = useState(true);
-  const [temp,setTemp] = useState<boolean>(false);
+  const [temp, setTemp] = useState<boolean>(false);
 
   // const createProductMutation = useMutation({
   //   mutationFn: createProduct,
@@ -119,10 +119,10 @@ export default function CreateProduct() {
       if (field.includes('.')) {
         const [arrayName, indexStr, key] = field.split('.'); // ["nhan_su", "0", "username"]
         const index = parseInt(indexStr);
-        
+
         const newArray = [...(prev[arrayName as keyof StoreState] as any[]) || []];
         newArray[index] = { ...newArray[index], [key]: value };
-        
+
         return { ...prev, [arrayName]: newArray };
       }
       // Dữ liệu bình thường (flat)
@@ -202,36 +202,46 @@ export default function CreateProduct() {
       hasResetBtn: false,
       fields: [
         { name: "ma_kho", label: "Mã kho vật chứng/ tài liệu đồ vật", type: "text", required: true },
-        { name: "ten_kho", label: "Tên kho vật chứng/ tài liệu đồ vật ", type: "text", required: true  },
-        { name: "cap_kho", label: "Cấp khi", type: "select", required: true, options:[
-          {label:'Cấp cục', value:'Cấp cục'},
-          {label:'Cấp tỉnh', value:'Cấp tỉnh'},
-          {label:'Cấp thành phố',value:"Cấp thành phố"},
-        ] },
-        { name: "don_vi_quan_ly", label: "Đơn vị quản lý", type: "select", required: true, options:[
-          {label:'Cấp cục', value:'Cấp cục'},
-          {label:'Cấp tỉnh', value:'Cấp tỉnh'},
-          {label:'Cấp thành phố',value:"Cấp thành phố"},
-        ] },
-        { name: "tinh_thanh", label: "Tỉnh/ Thành phố ", type: "select", required: true, options:[
-          {label:'Cấp cục', value:'Cấp cục'},
-          {label:'Cấp tỉnh', value:'Cấp tỉnh'},
-          {label:'Cấp thành phố',value:"Cấp thành phố"},
-        ]  },
-        { name: "phuong_xa", label: "Xã/ Phường", type: "select", required: true, options:[
-          {label:'Cấp cục', value:'Cấp cục'},
-          {label:'Cấp tỉnh', value:'Cấp tỉnh'},
-          {label:'Cấp thành phố',value:"Cấp thành phố"},
-        ]  },
-        { name: "dia_chi", label: "Địa chỉ", type: "text", required: true  },
-        { name: "trang_thai", label: "Trạng thái hoạt động", type: "select", required: true, options: [
-          { label: "Lệnh nhập kho", value: "Lệnh nhập kho" },
-          { label: "Lệnh xuất kho", value: "Lệnh xuất kho" },
-          { label: "Kế hoạch kiểm kê", value: "Kế hoạch kiểm kê" },
-          { label: "Kế hoạch kiểm tra", value: "Kế hoạch kiểm tra" },
-        ] },
+        { name: "ten_kho", label: "Tên kho vật chứng/ tài liệu đồ vật ", type: "text", required: true },
+        {
+          name: "cap_kho", label: "Cấp khi", type: "select", required: true, options: [
+            { label: 'Cấp cục', value: 'Cấp cục' },
+            { label: 'Cấp tỉnh', value: 'Cấp tỉnh' },
+            { label: 'Cấp thành phố', value: "Cấp thành phố" },
+          ]
+        },
+        {
+          name: "don_vi_quan_ly", label: "Đơn vị quản lý", type: "select", required: true, options: [
+            { label: 'Cấp cục', value: 'Cấp cục' },
+            { label: 'Cấp tỉnh', value: 'Cấp tỉnh' },
+            { label: 'Cấp thành phố', value: "Cấp thành phố" },
+          ]
+        },
+        {
+          name: "tinh_thanh", label: "Tỉnh/ Thành phố ", type: "select", required: true, options: [
+            { label: 'Cấp cục', value: 'Cấp cục' },
+            { label: 'Cấp tỉnh', value: 'Cấp tỉnh' },
+            { label: 'Cấp thành phố', value: "Cấp thành phố" },
+          ]
+        },
+        {
+          name: "phuong_xa", label: "Xã/ Phường", type: "select", required: true, options: [
+            { label: 'Cấp cục', value: 'Cấp cục' },
+            { label: 'Cấp tỉnh', value: 'Cấp tỉnh' },
+            { label: 'Cấp thành phố', value: "Cấp thành phố" },
+          ]
+        },
+        { name: "dia_chi", label: "Địa chỉ", type: "text", required: true },
+        {
+          name: "trang_thai", label: "Trạng thái hoạt động", type: "select", required: true, options: [
+            { label: "Lệnh nhập kho", value: "Lệnh nhập kho" },
+            { label: "Lệnh xuất kho", value: "Lệnh xuất kho" },
+            { label: "Kế hoạch kiểm kê", value: "Kế hoạch kiểm kê" },
+            { label: "Kế hoạch kiểm tra", value: "Kế hoạch kiểm tra" },
+          ]
+        },
         { name: "ghi_chu", label: "Ghi chú", type: "textarea", placeholder: "Nhập nội dung ghi chú" },
-        
+
       ],
     },
     {
@@ -239,14 +249,14 @@ export default function CreateProduct() {
       fields: (formData.nhan_su || []).flatMap((item, index) => {
         return [
           { name: `nhan_su.${index}.username`, label: "Tên nhân sự", type: "text", required: true },
-          { 
-            name: `nhan_su.${index}.role`, 
-            label: "Vai trò", 
-            type: "text", 
+          {
+            name: `nhan_su.${index}.role`,
+            label: "Vai trò",
+            type: "text",
             required: true,
             deleteBtn: {
               label: "Xóa",
-              icon:trash_2_icon,
+              icon: trash_2_icon,
               onClick: () => setFormData(prev => ({
                 ...prev,
                 nhan_su: prev.nhan_su?.filter((_, i) => i !== index)
@@ -271,7 +281,7 @@ export default function CreateProduct() {
           name: "storage_tree",
           label: "", // Không cần label phụ vì tên section đã bao hàm
           type: "tree",
-          
+
           fullWidth: true
         }
       ],
@@ -295,21 +305,21 @@ export default function CreateProduct() {
             className="flex h-auto items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-white px-[15px] py-[5px]"
           >
             <img src={back_icon} alt="" />
-            <span className="text-normal">Quay lại</span>
+            <span className="text-normal-14">Quay lại</span>
           </button>
           <button
             type="button"
             className="flex items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-[#00854C] px-[15px] py-[5px] disabled:opacity-70"
           >
             <img src={save_icon} alt="" />
-            <span className="text-white text-normal">{temp ? "Đang lưu..." : "Lưu"}</span>
+            <span className="text-white text-normal-14">{temp ? "Đang lưu..." : "Lưu"}</span>
           </button>
           <button
             type="button"
             className="flex items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-[#00854C] px-[15px] py-[5px] disabled:opacity-70"
           >
             <img src={person_icon} alt="" />
-            <span className="text-white text-normal">
+            <span className="text-white text-normal-14">
               {temp ? "Đang lưu..." : "Lưu & trình duyệt"}
             </span>
           </button>

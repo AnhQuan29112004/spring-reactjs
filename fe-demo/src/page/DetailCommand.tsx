@@ -106,7 +106,7 @@ export default function DetailCommand() {
             className="flex h-auto items-center justify-center gap-2 rounded border border-[#D9D9D9] bg-white px-[15px] py-[5px]"
           >
             <img src={back_icon} alt="" />
-            <span className="text-normal">Quay lại</span>
+            <span className="text-normal-14">Quay lại</span>
           </button>
           <div className={`flex gap-[10px] ${data?.trang_thai === null || data?.trang_thai === '' ? '' : 'hidden'}`}>
 
@@ -116,7 +116,7 @@ export default function DetailCommand() {
               className="flex h-auto bg-[#00854C] items-center justify-center gap-2 rounded border border-[#00854C] px-[15px] py-[5px]"
             >
               <img src={person_icon} alt="" />
-              <span className="text-normal text-white">Trình duyệt</span>
+              <span className="text-normal-14 text-white">Trình duyệt</span>
             </button>
             <button
               type="button"
@@ -124,7 +124,7 @@ export default function DetailCommand() {
               className="flex h-auto bg-[#00854C] items-center justify-center gap-2 rounded border border-[#00854C] px-[15px] py-[5px]"
             >
               <img src={update_icon} alt="" />
-              <span className="text-normal text-white">Chỉnh sửa</span>
+              <span className="text-normal-14 text-white">Chỉnh sửa</span>
             </button>
             <button
               type="button"
@@ -132,7 +132,7 @@ export default function DetailCommand() {
               className="flex h-auto bg-[#00854C] items-center justify-center gap-2 rounded border border-[#00854C] px-[15px] py-[5px]"
             >
               <img src={trash_1_icon} alt="" />
-              <span className="text-normal text-white">Xóa văn bản</span>
+              <span className="text-normal-14 text-white">Xóa văn bản</span>
             </button>
           </div>
         </div>
@@ -149,59 +149,59 @@ export default function DetailCommand() {
             </span>
           </span>
           <div className="grid w-full grid-cols-[20%_78%] gap-5">
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Số văn bản:
             </div>
 
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               {isLoading ? "Đang tải..." : data?.so_van_ban || "-"}
             </div>
 
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Ngày ban hành:
             </div>
 
-            <div className="text-left text-normal">
+            <div className="text-left text-normal-14">
               {isLoading ? "Đang tải..." : formatDate(data?.ngay_ban_hanh)}
             </div>
 
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Đơn vị gửi:
             </div>
 
-            <div className="text-left text-normal">
+            <div className="text-left text-normal-14">
               {isLoading ? "Đang tải..." : data?.don_vi_gui || "-"}
             </div>
 
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Nội dung:
             </div>
 
-            <div className="text-left text-normal">
+            <div className="text-left text-normal-14">
               {isLoading ? "Đang tải..." : data?.noi_dung || "-"}
             </div>
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               File đính kèm:
             </div>
-            <div className="text-left text-[#1890FF] italic text-semibold">
+            <div className="text-left text-[#1890FF] italic text-semibold-14">
               {isLoading ? "Đang tải..." : data?.file || "Không có tệp đính kèm"}
             </div>
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Loại văn bản:
             </div>
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               {isLoading ? "Đang tải..." : data?.loai_van_ban || "-"}
             </div>
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Lãnh đạo phê duyệt:
             </div>
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               {isLoading ? "Đang tải..." : data?.lanhDao?.username || "-"}
             </div>
-            <div className="text-left text-black no-underline text-semibold">
+            <div className="text-left text-black no-underline text-semibold-14">
               Kho tiếp nhận văn bản:
             </div>
-            <div className="text-left text-normal">
+            <div className="text-left text-normal-14">
               {isLoading ? "Đang tải..." : "[Chưa chọn kho tiếp nhận văn bản...]"}
             </div>
           </div>
