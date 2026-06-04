@@ -1,0 +1,23 @@
+
+.rdp-root {
+    --rdp-accent-color: #00854C;
+    --rdp-accent-background-color: rgba(0, 133, 76, 0.1);
+    --rdp-selected-border: 2px solid var(--rdp-accent-color);
+    --rdp-today-color: var(--rdp-accent-color);
+}
+
+.rdp-chevron {
+    fill: #00854C !important;
+}
+
+.rdp-selected .rdp-day_button {
+    background-color: #00854C !important;
+    color: white;
+    border: 2px solid #00854C !important;
+}
+
+.rdp-today:not(.rdp-outside) {
+    color: #00854C !important;
+    background-color: #c3e5d6;
+    border-radius: 50%;
+}

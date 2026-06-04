@@ -42,9 +42,22 @@ export function Breadcrumb() {
                     >
                         {item.breadcrumb}
                     </span>
+                    ) : item.disabled ? (
+                    <span
+                        className="
+                        text-[#B0B0B0]
+                        font-be_vietnam_pro
+                        "
+                    >
+                        {item.breadcrumb}
+                    </span>
                     ) : (
                     <Link
-                        to={(item as any).appendId && currentId ? `${item.path}/${currentId}` : item.path}
+                        to={
+                        item.appendId && currentId
+                            ? `${item.path}/${currentId}`
+                            : item.path
+                        }
                         className="
                         text-[#7A7A7A]
                         hover:text-[#444]

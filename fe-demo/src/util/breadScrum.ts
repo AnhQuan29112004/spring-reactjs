@@ -6,8 +6,13 @@ export const routes = [
     breadcrumb: "Trang chủ",
   },
   {
-    path: "/quan-ly-kho/danh-sach-kho",
+    path: "/quan-ly-kho",
     breadcrumb: "Quản lý kho",
+    disabled:true
+  },
+  {
+    path: "/quan-ly-kho/danh-sach-kho",
+    breadcrumb: "Danh sách kho",
   },
   {
     path: "/quan-ly-lenh",
@@ -30,5 +35,9 @@ export const routes = [
   {
     path:"/quan-ly-kho/danh-sach-kho/them-moi-kho",
     breadcrumb:"Thêm mới kho vật chứng/tài liệu, đồ vật"
+  },
+  {
+    path:"/quan-ly-kho/danh-sach-kho/chi-tiet-kho",
+    breadcrumb:"Chi tiết kho"
   }
 ];

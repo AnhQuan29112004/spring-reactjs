@@ -95,7 +95,7 @@ export function DataTable<T extends { id: number }>({
   const visibleColumns = columns.filter((col) => !col.hidden);
 
   return (
-    <div className="overflow-hidden rounded-[10px]">
+    <div className="overflow-hidden rounded-[10px] w-full">
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm text-left">
           <thead className="bg-[#F6F8F6] text-[#303030]">

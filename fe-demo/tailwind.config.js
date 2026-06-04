@@ -11,6 +11,7 @@ export default {
         be_vietnam_pro: ["Be Vietnam Pro", 'sans-serif'],
         roboto: ["Roboto", "sans-serif"],
         ibm: ["IBM Plex Sans", "sans-serif"],
+        ibm_mono: ["IBM Plex Mono", "sans-serif"],
       },
     },
   },

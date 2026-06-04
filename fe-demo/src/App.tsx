@@ -12,6 +12,7 @@ import CreateCommand from "./page/CreateCommand";
 import DetailCommand from "./page/DetailCommand";
 import UpdateCommand from "./page/UpdateCommand";
 import CreateProduct from "./page/CreateProduct";
+import DetailStore from "./page/DetailStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -82,6 +83,16 @@ export default function App() {
                 <PrivateRoute lanhDaoOnly>
                   <Layout>
                     <CreateProduct />
+                  </Layout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/quan-ly-kho/danh-sach-kho/chi-tiet-kho"
+              element={
+                <PrivateRoute lanhDaoOnly>
+                  <Layout>
+                    <DetailStore />
                   </Layout>
                 </PrivateRoute>
               }

@@ -23,10 +23,12 @@ import update_green_icon from  "../assets/update_green.svg";
 
 export interface StorageNode {
   id: string;
-  level: 'khu_vuc' | 'day' | 'ke' | 'tang' | 'o';
+  level: 'khu_vuc' | 'day' | 'ke' | 'tang' | 'o' |'';
   code: string;
   name: string;
   status: boolean;
+  orderIndex?: number;
+  note?: string;
   children?: StorageNode[];
 }
 

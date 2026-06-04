@@ -67,4 +67,38 @@
         font-size: 16px;
 
     }
+    .text-medium-14{
+        @apply font-be_vietnam_pro font-medium leading-[21px] tracking-normal;
+        font-size: 14px;
+    }
+
+    .text-roboto-16{
+        @apply font-roboto font-semibold leading-6 tracking-[0.15px];
+        font-size: 16px;
+    }
+
+    .text-semibold-12{
+        @apply font-be_vietnam_pro font-semibold leading-5 tracking-normal;
+        font-size: 12px;
+    }
+
+    .text-ibm-mono-14{
+        @apply font-ibm_mono font-normal leading-[22px] tracking-normal;
+        font-size: 14px;
+    }
+
+    .date-input {
+        @apply bg-white rounded-lg border border-[#D9D9D9] h-11 relative flex items-center justify-between w-80 px-2.5
+    }
+
+    .calendar-popup {
+        padding: 10px;
+        position: absolute;
+        top: 45px;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0,0,0,.15);
+        border-radius: 8px;
+        z-index: 1000;
+    }
 }   
